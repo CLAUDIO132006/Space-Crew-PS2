@@ -1,25 +1,17 @@
-name: Compilar Space Crew PS2
+steps:
+  - name: Descargar codigo
+    uses: actions/checkout@v4
 
-on:
-  push:
-  workflow_dispatch:
+  - name: Instalar Make
+    run: apk add --no-cache make
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ps2dev/ps2dev:latest
+  - name: Compilar juego
+    run: make
 
-    steps:
-      - name: Descargar codigo
-        uses: actions/checkout@v4
-
-      - name: Compilar juego
-        run: make
-
-      - name: Guardar archivo ELF
-        uses: actions/upload-artifact@v4
-        with:
-          name: Space-Crew-PS2
-          path: "*.elf"
-          if-no-files-found: error
+  - name: Guardar archivo ELF
+    uses: actions/upload-artifact@v4
+    with:
+      name: Space-Crew-PS2
+      path: "*.elf"
+      if-no-files-found: error
+      
