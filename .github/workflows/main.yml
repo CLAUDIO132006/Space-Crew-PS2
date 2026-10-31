@@ -14,4 +14,3 @@ steps:
       name: Space-Crew-PS2
       path: "*.elf"
       if-no-files-found: error
-      
