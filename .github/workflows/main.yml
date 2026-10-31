@@ -12,23 +12,23 @@ jobs:
       image: ghcr.io/ps2dev/ps2dev:latest
 
     steps:
-      - name: Descargar codigo
+      - name: Descargar proyecto
         uses: actions/checkout@v4
 
-      - name: Instalar Make
-        run: apk add --no-cache make
-
-      - name: Comprobar herramientas
+      - name: Instalar gsKit
         run: |
-          make --version
-          mips64r5900el-ps2-elf-gcc --version
+          rm -rf "$PS2DEV/gsKit"
+          git clone https://github.com/ps2dev/gsKit.git "$PS2DEV/gsKit"
+          cd "$PS2DEV/gsKit"
+          make
+          make install
 
       - name: Compilar juego
         run: make
 
-      - name: Guardar archivo ELF
+      - name: Guardar ELF
         uses: actions/upload-artifact@v4
         with:
-          name: Space-Crew-PS2-v0.1
+          name: Space-Crew-PS2
           path: "*.elf"
           if-no-files-found: error
